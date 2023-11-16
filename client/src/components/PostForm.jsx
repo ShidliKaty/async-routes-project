@@ -1,8 +1,9 @@
-import { Form, Link } from "react-router-dom"
-import { FormGroup } from "./FormGroup"
+import { Await, Form, Link } from "react-router-dom";
+import { FormGroup } from "./FormGroup";
+import { Suspense } from "react";
 
 export function PostForm({
-  users,
+  usersPromise,
   isSubmitting,
   errors = {},
   defaultValues = {},
@@ -21,13 +22,29 @@ export function PostForm({
         </FormGroup>
         <FormGroup errorMessage={errors.userId}>
           <label htmlFor="userId">Author</label>
-          <select name="userId" id="userId" defaultValue={defaultValues.userId}>
-            {users.map(user => (
-              <option key={user.id} value={user.id}>
-                {user.name}
-              </option>
-            ))}
-          </select>
+          <Suspense
+            fallback={
+              <select name="userId" id="userId" disabled>
+                <option value={""}>Loading...</option>
+              </select>
+            }
+          >
+            <Await resolve={usersPromise}>
+              {(users) => (
+                <select
+                  name="userId"
+                  id="userId"
+                  defaultValue={defaultValues.userId}
+                >
+                  {users.map((user) => (
+                    <option key={user.id} value={user.id}>
+                      {user.name}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </Await>
+          </Suspense>
         </FormGroup>
       </div>
       <div className="form-row">
@@ -49,23 +66,23 @@ export function PostForm({
         </button>
       </div>
     </Form>
-  )
+  );
 }
 
 export function postFormValidator({ title, body, userId }) {
-  const errors = {}
+  const errors = {};
 
   if (title === "") {
-    errors.title = "Required"
+    errors.title = "Required";
   }
 
   if (body === "") {
-    errors.body = "Required"
+    errors.body = "Required";
   }
 
   if (userId === "") {
-    errors.userId = "Required"
+    errors.userId = "Required";
   }
 
-  return errors
+  return errors;
 }
