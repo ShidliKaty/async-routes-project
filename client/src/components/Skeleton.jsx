@@ -1,8 +1,15 @@
-import React, { Fragment } from "react";
+import React, { Fragment, Suspense } from "react";
+import { Await } from "react-router-dom";
 
-export const Skeleton = ({ short }) => {
+export const Skeleton = ({ short, inline }) => {
   return (
-    <div className="skeleton" style={{ width: short ? "15em" : undefined }} />
+    <div
+      className="skeleton"
+      style={{
+        width: short ? "15em" : undefined,
+        display: inline ? "inline-block" : undefined,
+      }}
+    />
   );
 };
 
@@ -18,4 +25,12 @@ export const SkeletonList = ({ amount, children }) => {
 
 export const SkeletonButton = () => {
   return <div className="skeleton skeleton-btn" />;
+};
+
+export const SkeletonSimpleText = ({ resolve, children }) => {
+  return (
+    <Suspense fallback={<Skeleton short inline />}>
+      <Await resolve={resolve}>{children}</Await>
+    </Suspense>
+  );
 };
