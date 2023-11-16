@@ -26,6 +26,9 @@ export const SkeletonList = ({ amount, children }) => {
 export const SkeletonButton = () => {
   return <div className="skeleton skeleton-btn" />;
 };
+export const SkeletonInput = () => {
+  return <div className="skeleton skeleton-input" />;
+};
 
 export const SkeletonSimpleText = ({ resolve, children }) => {
   return (
