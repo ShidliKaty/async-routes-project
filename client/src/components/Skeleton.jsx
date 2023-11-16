@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 
 export const Skeleton = ({ short }) => {
   return (
-    <div className="skeleton" style={{ width: short ? "25em" : undefined }} />
+    <div className="skeleton" style={{ width: short ? "15em" : undefined }} />
   );
 };
 
@@ -14,4 +14,8 @@ export const SkeletonList = ({ amount, children }) => {
       ))}
     </>
   );
+};
+
+export const SkeletonButton = () => {
+  return <div className="skeleton skeleton-btn" />;
 };
